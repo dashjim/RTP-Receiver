@@ -4,7 +4,7 @@ import java.io.*;
 
 public class VideoStream {
 
-    FileInputStream fis; //video file
+    InputStream fis; //video file
     int frame_nb; //current frame nb
 
     //-----------------------------------
@@ -13,7 +13,8 @@ public class VideoStream {
     public VideoStream(String filename) throws Exception{
 
         //init variables
-        fis = new FileInputStream(filename);
+//        fis = new FileInputStream(filename);
+        fis = VideoStream.class.getClassLoader().getResourceAsStream(filename);
         frame_nb = 0;
     }
 
