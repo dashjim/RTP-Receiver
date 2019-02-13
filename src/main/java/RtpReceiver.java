@@ -7,15 +7,15 @@ import java.net.*;
 import java.util.Random;
 
 public class RtpReceiver {
-    InetAddress ServerIPAddr = InetAddress.getByName("localhost");
+    private InetAddress ServerIPAddr = InetAddress.getByName("localhost");
     //RTP variables:
     //----------------
-    DatagramPacket rcvdp;            //UDP packet received from the server
-    DatagramSocket RTPsocket;        //socket to be used to send and receive UDP packets
-    static int RTP_RCV_PORT = 26000; //port where the client will receive the RTP packets
+    private DatagramPacket rcvdp;            //UDP packet received from the server
+    private DatagramSocket RTPsocket;        //socket to be used to send and receive UDP packets
+    private static int RTP_RCV_PORT = 26000; //port where the client will receive the RTP packets
 
-    Timer timer; //timer used to receive data from the UDP socket
-    byte[] buf;  //buffer used to store data received from the server
+    private Timer timer;  //timer used to receive data from the UDP socket
+    private byte[] buf= new byte[15000];  //buffer used to store data received from the server
 
     //input and output stream filters
     static BufferedReader RTSPBufferedReader;
@@ -26,10 +26,10 @@ public class RtpReceiver {
 
     //RTCP variables
     //----------------
-    DatagramSocket RTCPsocket;          //UDP socket for sending RTCP packets
-    static int RTCP_RCV_PORT = 19001;   //port where the client will receive the RTP packets
+    private DatagramSocket RTCPsocket;          //UDP socket for sending RTCP packets
+    private static int RTCP_RCV_PORT = 19001;   //port where the client will receive the RTP packets
     static int RTCP_PERIOD = 400;       //How often to send RTCP packets
-    RtcpSender rtcpSender;
+    private RtcpSender rtcpSender;
 
     //Video constants:
     //------------------
@@ -37,33 +37,48 @@ public class RtpReceiver {
 
     //Statistics variables:
     //------------------
-    double statDataRate;        //Rate of video data received in bytes/s
-    int statTotalBytes;         //Total number of bytes received in a session
-    double statStartTime;       //Time in milliseconds when start is pressed
-    double statTotalPlayTime;   //Time in milliseconds of video playing since beginning
-    float statFractionLost;     //Fraction of RTP data packets from sender lost since the prev packet was sent
-    int statCumLost;            //Number of packets lost
-    int statExpRtpNb;           //Expected Sequence number of RTP messages within the session
-    int statHighSeqNb;          //Highest sequence number received in session
+    private double statDataRate;        //Rate of video data received in bytes/s
+    private int statTotalBytes;         //Total number of bytes received in a session
+    private double statStartTime;       //Time in milliseconds when start is pressed
+    private double statTotalPlayTime;   //Time in milliseconds of video playing since beginning
+    private float statFractionLost;     //Fraction of RTP data packets from sender lost since the prev packet was sent
+    private int statCumLost;            //Number of packets lost
+    private int statExpRtpNb;           //Expected Sequence number of RTP messages within the session
+    private int statHighSeqNb;          //Highest sequence number received in session
 
     public RtpReceiver() throws UnknownHostException {
     }
 
+    public static void main(String[] args) throws UnknownHostException {
+        new RtpReceiver().startReceiver();
+    }
+
     public void startReceiver() {
 
-        System.out.println("Play Button pressed!");
+        startSocket();
+        System.out.println(" start receiver !");
 
         //Start to save the time in stats
         statStartTime = System.currentTimeMillis();
 
         //start the timer
+        timer = new Timer(20, new timerListener());
+        timer.setInitialDelay(0);
         timer.start();
+
+        rtcpSender = new RtcpSender(400);
         rtcpSender.startSend();
+
     }
 
-    public void startSocket() {
+    public void stopReceiver() {
+        timer.stop();
+        rtcpSender.stopSend();
+    }
 
-        System.out.println("Setup Button pressed !");
+    private void startSocket() {
+
+        System.out.println("start RTP & RTCP socket!");
         //Init non-blocking RTPsocket that will be used to receive data
         try {
             //construct a new DatagramSocket to receive RTP packets from the server, on port RTP_RCV_PORT
@@ -94,7 +109,7 @@ public class RtpReceiver {
 
         Random randomGenerator;         // For testing only
 
-        public RtcpSender(int interval) {
+        RtcpSender(int interval) {
             this.interval = interval;
             rtcpTimer = new Timer(interval, this);
             rtcpTimer.setInitialDelay(0);
@@ -134,12 +149,12 @@ public class RtpReceiver {
         }
 
         // Start sending RTCP packets
-        public void startSend() {
+        void startSend() {
             rtcpTimer.start();
         }
 
         // Stop sending RTCP packets
-        public void stopSend() {
+        void stopSend() {
             rtcpTimer.stop();
         }
     }

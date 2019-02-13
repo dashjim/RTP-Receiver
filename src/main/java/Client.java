@@ -33,7 +33,7 @@ public class Client {
     //----------------
     DatagramPacket rcvdp;            //UDP packet received from the server
     DatagramSocket RTPsocket;        //socket to be used to send and receive UDP packets
-    static int RTP_RCV_PORT = 25000; //port where the client will receive the RTP packets
+    static int RTP_RCV_PORT = 26000; //port where the client will receive the RTP packets
     
     Timer timer; //timer used to receive data from the UDP socket
     byte[] buf;  //buffer used to store data received from the server 
@@ -137,12 +137,12 @@ public class Client {
 
         //init timer
         //--------------------------
-        timer = new Timer(20, new timerListener());
-        timer.setInitialDelay(0);
-        timer.setCoalesce(true);
+//        timer = new Timer(20, new timerListener());
+//        timer.setInitialDelay(0);
+//        timer.setCoalesce(true);
 
         //init RTCP packet sender
-        rtcpSender = new RtcpSender(400);
+//        rtcpSender = new RtcpSender(400);
 
         //allocate enough memory for the buffer used to receive data from the server
         buf = new byte[15000];    
@@ -182,7 +182,6 @@ public class Client {
         state = INIT;
     }
 
-
     //------------------------------------
     //Handler for buttons
     //------------------------------------
@@ -196,19 +195,19 @@ public class Client {
             System.out.println("Setup Button pressed !");      
             if (state == INIT) {
                 //Init non-blocking RTPsocket that will be used to receive data
-                try {
+//                try {
                     //construct a new DatagramSocket to receive RTP packets from the server, on port RTP_RCV_PORT
-                    RTPsocket = new DatagramSocket(RTP_RCV_PORT);
+//                    RTPsocket = new DatagramSocket(RTP_RCV_PORT);
                     //UDP socket for sending QoS RTCP packets
-                    RTCPsocket = new DatagramSocket();
+//                    RTCPsocket = new DatagramSocket();
                     //set TimeOut value of the socket to 5msec.
-                    RTPsocket.setSoTimeout(5);
-                }
-                catch (SocketException se)
-                {
-                    System.out.println("Socket exception: "+se);
-                    System.exit(0);
-                }
+//                    RTPsocket.setSoTimeout(5);
+//                }
+//                catch (SocketException se)
+//                {
+//                    System.out.println("Socket exception: "+se);
+//                    System.exit(0);
+//                }
 
                 //init RTSP sequence number
                 RTSPSeqNb = 1;
@@ -258,8 +257,8 @@ public class Client {
                     System.out.println("New RTSP state: PLAYING");
 
                     //start the timer
-                    timer.start();
-                    rtcpSender.startSend();
+//                    timer.start();
+//                    rtcpSender.startSend();
                 }
             }
             //else if state != READY then do nothing
@@ -292,8 +291,8 @@ public class Client {
                     System.out.println("New RTSP state: READY");
                       
                     //stop the timer
-                    timer.stop();
-                    rtcpSender.stopSend();
+//                    timer.stop();
+//                    rtcpSender.stopSend();
                 }
             }
             //else if state != PLAYING then do nothing
