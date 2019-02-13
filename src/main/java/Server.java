@@ -35,7 +35,7 @@ public class Server extends JFrame implements ActionListener {
     int imagenb = 0; //image nb of the image currently transmitted
     VideoStream video; //VideoStream object used to access video frames
     static int MJPEG_TYPE = 26; //RTP payload type for MJPEG video
-    static int FRAME_PERIOD = 100; //Frame period of the video to stream, in ms
+    static int FRAME_PERIOD = 50; //Frame period of the video to stream, in ms
     static int VIDEO_LENGTH = 500; //length of the video in frames
 
     Timer timer;    //timer used to send the images at the video frame rate

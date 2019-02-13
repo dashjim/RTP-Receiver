@@ -471,7 +471,7 @@ public class Client {
                 DatagramPacket dp = new DatagramPacket(packet_bits, packet_length, ServerIPAddr, RTCP_RCV_PORT);
                 RTCPsocket.send(dp);
             } catch (InterruptedIOException iioe) {
-                System.out.println("Nothing to read");
+                System.out.println("RTCP - Nothing to Send");
             } catch (IOException ioe) {
                 System.out.println("Exception caught: "+ioe);
             }
