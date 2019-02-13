@@ -1,3 +1,34 @@
+RTP receiver
+======
+This application is a modification from the RTSP Client/Server project of the following - 
+https://github.com/mutaphore/RTSP-Client-Server, the original code is clean, neat and easy to understand.
+
+I made the following modifications to the original project:
+  - Convert it to maven project so it would be easier to run and debug in an IDE. When start the server please pass in the 
+     `1051` as command line parameter. When start teh client please pass in the `localhost 1051`.
+  - Extract RTP & RTCP part into a separate class, it has a `main()` function to start (Don't need any parameter).
+
+The original project (as maven project) is in `master` branch and the separate RTP receiver is in `rtp-receiver` branch.
+
+How to run
+---
+- Fist start server
+- Then start RtpReceiver
+- Then start client - click setup button first then click play.
+
+The RTP stream will be send to `RtpReceiver` (instead of the `client`) and `RtpReceiver` will save the payload of RTP
+ to a local file. I've checked that the bytes sent and received are equal (Server don't send 5 bytes for every frame in movie,
+ so the received RTP payload should be 2500 bytes less.)
+
+
+Notice
+----
+The original project has some issues documented in /docs/vulnerabilities.txt, but I also found that some of byte operations 
+are very much inefficient, E.G. copy byte array in a `for` loop - these must be corrected in a production environment.
+
+The following is the description from the original project
+---
+
 RTSP-Client-Server
 ======
 
