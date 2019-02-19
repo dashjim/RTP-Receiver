@@ -12,7 +12,7 @@ public class RtpReceiver {
     //----------------
     private DatagramPacket rcvdp;            //UDP packet received from the server
     private DatagramSocket RTPsocket;        //socket to be used to send and receive UDP packets
-    private static int RTP_RCV_PORT = 26000; //port where the client will receive the RTP packets
+    private static int RTP_RCV_PORT = 26001; //port where the client will receive the RTP packets
 
     private Timer timer;  //timer used to receive data from the UDP socket
     private byte[] buf= new byte[15000];  //buffer used to store data received from the server
@@ -27,7 +27,7 @@ public class RtpReceiver {
     //RTCP variables
     //----------------
     private DatagramSocket RTCPsocket;          //UDP socket for sending RTCP packets
-    private static int RTCP_RCV_PORT = 19001;   //port where the client will receive the RTP packets
+    private static int RTCP_RCV_PORT = 19002;   //port where the client will receive the RTP packets
     static int RTCP_PERIOD = 400;       //How often to send RTCP packets
     private RtcpSender rtcpSender;
 
@@ -50,13 +50,16 @@ public class RtpReceiver {
     }
 
     public static void main(String[] args) throws UnknownHostException {
+        RTP_RCV_PORT = Integer.parseInt(args[0]);
+        RTCP_RCV_PORT = Integer.parseInt(args[1]);
+
         new RtpReceiver().startReceiver();
     }
 
     public void startReceiver() {
 
         startSocket();
-        System.out.println(" start receiver !");
+        System.out.println(" start receiver at: "+ RTP_RCV_PORT);
 
         //Start to save the time in stats
         statStartTime = System.currentTimeMillis();

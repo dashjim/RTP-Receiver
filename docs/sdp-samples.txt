@@ -1,0 +1,32 @@
+v=0
+o=- 1548820315 1 IN IP4 135.27.134.170
+s=-
+c=IN IP4 135.27.193.227
+b=TIAS:64000
+t=0 0
+m=audio 26000 RTP/AVP 8 18 9 0 120
+c=IN IP4 135.27.193.227
+a=sendrecv
+a=fmtp:18 annexb=no
+a=rtpmap:120 telephone-event/80008000
+
+
+<?xml version="1.0"?> 
+   <msmlRequest> 
+   <msml version="1.1"> 
+   <dialogstart name="countdialog" target="conn:' + $sessionID + '" type="application/moml+xml"> 
+   <play xmlns:cvd="http://convedia.com/ext" cvd:barge="true" cvd:cleardb="true" iterate="1" xml:lang="en_US"> 
+   <audio uri="mmf://default/one"/> 
+   <audio uri="mmf://default/two"/> 
+   <audio uri="mmf://default/three"/> 
+   <audio uri="mmf://default/four"/> 
+   <audio uri="mmf://default/five"/> 
+   <audio uri="mmf://default/six"/> 
+   <audio uri="mmf://default/seven"/> 
+   <audio uri="mmf://default/eight"/> 
+   <audio uri="mmf://default/nine"/> 
+   <audio uri="mmf://default/ten"/> 
+   </play> 
+   </dialogstart> 
+   </msml> 
+   </msmlRequest>

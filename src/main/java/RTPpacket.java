@@ -27,7 +27,7 @@ public class RTPpacket{
     public byte[] payload;
     
     //--------------------------
-    //Constructor of an RTPpacket object from header fields and payload bitstream
+    // Server side -  Constructor of an RTPpacket object from header fields and payload bitstream
     //--------------------------
     public RTPpacket(int PType, int Framenb, int Time, byte[] data, int data_length){
         //fill by default header fields:
@@ -69,7 +69,7 @@ public class RTPpacket{
     }
       
     //--------------------------
-    //Constructor of an RTPpacket object from the packet bistream 
+    //Receiver side - Constructor of an RTPpacket object from the packet bistream
     //--------------------------
     public RTPpacket(byte[] packet, int packet_size)
     {
@@ -177,6 +177,7 @@ public class RTPpacket{
                            + ", CC: " + CC
                            + ", Marker: " + Marker 
                            + ", PayloadType: " + PayloadType
+                           + ", PayloadSize: " + payload_size
                            + ", SequenceNumber: " + SequenceNumber
                            + ", TimeStamp: " + TimeStamp);
 
